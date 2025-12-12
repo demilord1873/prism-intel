@@ -2,11 +2,16 @@
 export class DeepSeekClient {
   private apiKey: string;
 
-  constructor() {
-    this.apiKey = process.env.OPENROUTER_API_KEY || '';
+  /**
+   * @param apiKey Optional: pass your API key directly instead of using env variable
+   */
+  constructor(apiKey?: string) {
+    this.apiKey = apiKey || process.env.OPENROUTER_API_KEY || '';
 
     if (!this.apiKey) {
-      throw new Error('DeepSeek API key missing. Add OPENROUTER_API_KEY to .env.local');
+      throw new Error(
+        'OpenRouter API key missing. Pass it to the constructor or add OPENROUTER_API_KEY to .env.local'
+      );
     }
   }
 
@@ -20,14 +25,14 @@ export class DeepSeekClient {
     } = {}
   ): Promise<Response | any> {
     const payload = {
-      model: options.model || 'deepseek-chat',
+      model: options.model || 'gpt-4o-mini',
       messages,
       temperature: options.temperature ?? 0.7,
       max_tokens: options.max_tokens ?? 2048,
       stream: options.stream ?? false,
     };
 
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
+    const response = await fetch('https://api.openrouter.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,12 +43,11 @@ export class DeepSeekClient {
 
     if (!response.ok) {
       const error = await response.text();
-      console.error('DeepSeek Error:', error);
-      throw new Error('DeepSeek API request failed: ' + error);
+      console.error('OpenRouter Error:', error);
+      throw new Error('OpenRouter API request failed: ' + error);
     }
 
-    // If caller requested a stream, return the raw Response so the server route
-    // can forward the streaming body to the client. Otherwise return parsed JSON.
+    // Return raw Response for streaming, otherwise parsed JSON
     if (options.stream) {
       return response;
     }
