@@ -3,10 +3,10 @@ export class DeepSeekClient {
   private apiKey: string;
 
   constructor() {
-    this.apiKey = process.env.DEEPSEEK_API_KEY || '';
+    this.apiKey = process.env.OPENROUTER_API_KEY || '';
 
     if (!this.apiKey) {
-      throw new Error('DeepSeek API key missing. Add DEEPSEEK_API_KEY to .env.local');
+      throw new Error('DeepSeek API key missing. Add OPENROUTER_API_KEY to .env.local');
     }
   }
 
