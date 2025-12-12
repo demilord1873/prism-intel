@@ -3,7 +3,7 @@ export class DeepSeekClient {
   private apiKey: string;
 
   constructor(apiKey?: string) {
-    this.apiKey = apiKey || process.env.OPENROUTER_API_KEY || '';
+    this.apiKey = apiKey || process.env.DEEPSEEK_API_KEY || '';
 
     if (!this.apiKey) {
       throw new Error(
