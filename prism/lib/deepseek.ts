@@ -2,9 +2,6 @@
 export class DeepSeekClient {
   private apiKey: string;
 
-  /**
-   * @param apiKey Optional: pass your API key directly instead of using env variable
-   */
   constructor(apiKey?: string) {
     this.apiKey = apiKey || process.env.OPENROUTER_API_KEY || '';
 
